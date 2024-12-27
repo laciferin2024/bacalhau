@@ -15,7 +15,7 @@ import (
 
 // This file exists to expose the Web UI components to the Bacalhau app.
 
-//go:embed build/**
+// //go:embed build/**
 var buildFiles embed.FS
 
 // Return the index page for the web app with the passed API URL used. The app
