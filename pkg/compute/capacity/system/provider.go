@@ -37,9 +37,9 @@ func (p *PhysicalCapacityProvider) GetAvailableCapacity(ctx context.Context) (mo
 	}
 
 	return models.Resources{
-		CPU:    totalCapacity.CPU * 0.8,
-		Memory: totalCapacity.Memory * 80 / 100,
-		Disk:   totalCapacity.Disk * 80 / 100,
+		CPU:    totalCapacity.CPU,
+		Memory: totalCapacity.Memory,
+		Disk:   totalCapacity.Disk,
 		GPU:    totalCapacity.GPU,
 		GPUs:   totalCapacity.GPUs,
 	}, nil
