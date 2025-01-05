@@ -3,6 +3,10 @@ name: Release
 on:
   push:
     tags:
+    
+    branches:
+      - darts/*
+      - main
 
   workflow_dispatch:
     inputs:
@@ -34,6 +38,18 @@ jobs:
           fetch-tags: ${{ github.event_name != 'workflow_dispatch' }}
           fetch-depth: 2
           ref: ${{ github.event.inputs.branch || github.event.ref }}
+
+      - uses: actions/setup-node@v3
+        with:
+          cache: "yarn"
+          cache-dependency-path: "./webui/yarn.lock"
+          node-version: "20.9.0"
+          check-latest: true
+
+      - name: Yarn build
+        working-directory: ./webui
+        run: |
+          yarn run build
 
       - name: Set up Go
         uses: actions/setup-go@v4
