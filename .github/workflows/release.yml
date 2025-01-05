@@ -49,6 +49,7 @@ jobs:
       - name: Yarn build
         working-directory: ./webui
         run: |
+          yarn install
           yarn run build
 
       - name: Set up Go
