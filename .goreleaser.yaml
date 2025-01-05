@@ -30,7 +30,7 @@ builds:
          -v
          {{- end -}}
     ldflags:
-      - -X "gitlab.com/bacalhau-network/bacalhau/config.commitSha={{.ShortCommit}}"
+      - -X "github.com/bacalhau-project/bacalhau/pkg/version.GITVERSION={{.ShortCommit}}"
       - -s -w
     env:
       - CGO_ENABLED=0
