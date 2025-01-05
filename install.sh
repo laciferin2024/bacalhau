@@ -54,8 +54,8 @@ detect_os_info() {
 } 
 
 install() {
-  B_LOC=${B_LOC:-"/tmp/b"}
-  B_INSTALL_LOC=${B_INSTALL_LOC:-"/usr/local/bin/bacalhau"}
+  LOC=${LOC:-"/tmp/b"}
+  INSTALL_LOC=${INSTALL_LOC:-"/usr/local/bin/bacalhau"}
 
   if [[ "$version" == "" ]]; then
       getLatestRelease
@@ -64,32 +64,16 @@ install() {
   rurl=https://github.com/${GITHUB_ORG}/${GITHUB_REPO}/releases/download/$version/bacalhau-$OSNAME-$OSARCH
   
   echo "release url=$rurl"
-  curl -sSL -o $B_LOC $rurl
-  chmod +x $B_LOC
+  curl -sSL -o $LOC $rurl
+  chmod +x $LOC
 
-  cp $B_LOC $B_INSTALL_LOC 
+  cp $LOC $INSTALL_LOC 
 
   if command -v bacalhau >/dev/null 2>&1; then
-    echo "Installed bacalhau successfully!" in "$B_INSTALL_LOC"
+    echo "Installed bacalhau successfully!" in "$INSTALL_LOC"
   else
     echo "Bacalhau installation failed or not found in PATH"
   fi
-
-
-  # if curl -sSL -o $B_LOC.tar.gz "$rurl"; then
-  #   echo "Download successful!"
-    
-  #   # Extract the downloaded file
-  #   tar -xzf $B_LOC.tar.gz -C /tmp
-    
-  #   # Make the extracted binaries executable (assuming they are in $B_LOC)
-  #   chmod +x $B_LOC/*
-    
-  #   echo "Files extracted and made executable."
-  # else
-  #     echo "Error: Failed to download the file from $rurl" >&2
-  #     exit 1
-  # fi
 
 }
 
