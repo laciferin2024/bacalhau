@@ -1,0 +1,138 @@
+version: 1
+
+before:
+  hooks:
+    # You may remove this if you don't use go modules.
+    - go mod tidy
+    # you may remove this if you don't need go generate
+#    - go generate ./...
+
+git:
+  tag_sort: -version:creatordate
+  prerelease_suffix: "-"
+
+builds:
+  - id: "bacalhau"
+    binary: "bacalhau"
+    main: "main.go"
+
+    flags:
+      - -trimpath
+      - -v
+      # - |
+        # {{- if eq .Os "darwin" }}-race{{- end }}
+      - >-
+         {{- if or 
+          (eq .Os "darwin")
+            -}}
+         -race
+         {{- else -}}
+         -v
+         {{- end -}}
+    ldflags:
+      - -X "gitlab.com/bacalhau-network/bacalhau/config.commitSha={{.ShortCommit}}"
+      - -s -w
+    env:
+      - CGO_ENABLED=0
+      # - |
+      #   {{- if or 
+      #       (and (eq .Os "linux") (eq .Arch "arm")) 
+      #       (and (eq .Os "windows") (eq .Arch "arm")) 
+      #       (and (eq .Os "windows") (eq .Arch "arm64")) 
+      #       (and (eq .Os "linux") (eq .Arch "arm64")) 
+      #       (eq .Os "windows")
+      #     -}}
+      #     CGO_ENABLED=0
+      #   {{- else -}}
+      #     CGO_ENABLED=1
+      #   {{- end -}}
+
+      # - CGO_ENABLED=1
+      # cgo enabled for race
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm
+      - arm64
+    ignore:
+      - goos: windows
+        goarch: arm64
+
+    dir: "." #go.mod
+
+universal_binaries:
+  - name_template: 'bacalhau-darwin-universal' #binary name
+    id: bacalhau
+    ids:
+      - cli
+      - bacalhau
+      - bacalhau-universal
+    replace: false
+
+    hooks:
+      pre: echo "pre"
+      post: echo {{ .Path }}
+
+archives:
+ - format: binary
+   #  - format: tar.gz
+   #    # this name template makes the OS and Arch compatible with the results of `uname`.
+   name_template: >-
+     {{ .ProjectName }}-
+     {{- title .Os }}-
+     {{- if eq .Arch "amd64" }}amd64
+     {{- else if eq .Arch "386" }}i386
+     {{- else }}{{ .Arch }}{{ end }}
+     {{- if .Arm }}v{{ .Arm }}{{ end }}
+   # use zip for windows archives
+   format_overrides:
+     - goos: windows
+       format: zip
+
+
+changelog:
+  format: "{{.SHA}}: {{.Message}} (@{{.AuthorUsername}})"
+
+  groups:
+    - title: Features
+      regexp: '^.*?feat(\([[:word:]]+\))??!?:.+$'
+      order: 0
+    - title: "Bug fixes"
+      regexp: '^.*?bug(\([[:word:]]+\))??!?:.+$'
+      order: 1
+    - title: Others
+      order: 999
+
+  # sort: asc
+  # filters:
+  #  exclude:
+  #    - "^docs:"
+#      - "^test:"
+
+release:
+  mode: append
+  # draft: true
+  replace_existing_draft: true
+  #  make_latest: true
+  prerelease: auto #if rc1
+
+  github:
+    owner: laciferin2024
+    name: bacalhau
+
+  extra_files:
+    - glob: ./install.sh
+    # - glob: ./setup
+    # - glob: ./docs/goreleaser/cute rabbit in a spacesuit
+      # name_template: cute.rabbit.in.a.spacesuit.png
+
+
+
+
+#https://goreleaser.com/customization/release/#github
+
+#https://goreleaser.com/customization/universalbinaries/
+
