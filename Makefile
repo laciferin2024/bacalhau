@@ -436,16 +436,16 @@ COVER_FILE := coverage/${PACKAGE}_$(subst ${COMMA},_,${TEST_BUILD_TAGS}).coverag
 .PHONY: test-and-report
 test-and-report: unittests.xml ${COVER_FILE}
 
-${COVER_FILE} unittests.xml ${TEST_OUTPUT_FILE_PREFIX}_unit.json &: ${CMD_FILES} ${PKG_FILES} $(dir ${COVER_FILE})
-	gotestsum \
-		--jsonfile ${TEST_OUTPUT_FILE_PREFIX}_unit.json \
-		--junitfile unittests.xml \
-		--format testname \
-		-- \
-			-p ${TEST_PARALLEL_PACKAGES} \
-			./pkg/... ./cmd/... \
-			-coverpkg=./... -coverprofile=${COVER_FILE} \
-			--tags=${TEST_BUILD_TAGS}
+	${COVER_FILE} unittests.xml ${TEST_OUTPUT_FILE_PREFIX}_unit.json &: ${CMD_FILES} ${PKG_FILES} $(dir ${COVER_FILE})
+		gotestsum \
+			--jsonfile ${TEST_OUTPUT_FILE_PREFIX}_unit.json \
+			--junitfile unittests.xml \
+			--format testname \
+			-- \
+				-p ${TEST_PARALLEL_PACKAGES} \
+				./pkg/... ./cmd/... \
+				-coverpkg=./... -coverprofile=${COVER_FILE} \
+				--tags=${TEST_BUILD_TAGS}
 
 ################################################################################
 # Target: coverage-report
