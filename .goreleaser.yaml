@@ -30,7 +30,7 @@ builds:
          -v
          {{- end -}}
     ldflags:
-      - -X "github.com/bacalhau-project/bacalhau/pkg/version.GITVERSION={{.ShortCommit}}"
+      - -X "github.com/bacalhau-project/bacalhau/pkg/version.GITVERSION={{.Version}}"
       - -s -w
     env:
       - CGO_ENABLED=0
