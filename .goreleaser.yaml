@@ -21,14 +21,14 @@ builds:
       - -v
       # - |
         # {{- if eq .Os "darwin" }}-race{{- end }}
-      - >-
-         {{- if or 
-          (eq .Os "darwin")
-            -}}
-         -race
-         {{- else -}}
-         -v
-         {{- end -}}
+      # - >-
+      #    {{- if or 
+      #     (eq .Os "darwin")
+      #       -}}
+      #    -race
+      #    {{- else -}}
+      #    -v
+      #    {{- end -}}
     ldflags:
       - -X "github.com/bacalhau-project/bacalhau/pkg/version.GITVERSION={{.Version}}"
       - -s -w
