@@ -70,7 +70,10 @@ install() {
   cp $LOC $INSTALL_LOC 
 
   if command -v bacalhau >/dev/null 2>&1; then
-    echo "Installed bacalhau successfully!" in "$INSTALL_LOC"
+    echo "Installed bacalhau successfully along with alias b !" in "$INSTALL_LOC"
+    if ! command -v b >/dev/null 2>&1; then
+         sudo ln -s "$INSTALL_LOC" /usr/local/bin/b
+    fi
   else
     echo "Bacalhau installation failed or not found in PATH"
   fi
