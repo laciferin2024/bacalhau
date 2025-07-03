@@ -96,9 +96,9 @@ main() {
 
       Thanks for installing Bacalhau! We're hoping to unlock an new world of more efficient AI Applications, and would really love to hear from you on how we can improve.
 
-      - ⭐️ Give us a star on GitHub (https://github.com/laciferin2024/bacalhau)
-      - 🧑‍💻 Request a feature! (https://github.com/laciferin2024/bacalhau/issues/new)
-      - 🐛 File a bug! (https://github.com/laciferin2024/bacalhau/issues/new)
+      - ⭐️ Give us a star on GitHub (https://github.com/darts2024/bacalhau)
+      - 🧑‍💻 Request a feature! (https://github.com/darts2024/bacalhau/issues/new)
+      - 🐛 File a bug! (https://github.com/darts2024/bacalhau/issues/new)
       - ❓ Join our Community! (https://t.me/decenterai)
       - 📰 Checkout our docs! (https://decenter-ai.gitbook.io/)
 
